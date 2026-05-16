@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Silence in Existence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- SVG Filters for Heat Distortion and Liquid UI -->
+    <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+        <defs>
+            <filter id="heat-distortion">
+                <feTurbulence id="heat-noise" type="fractalNoise" baseFrequency="0.01 0.05" numOctaves="2" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+            <filter id="liquid-ui">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="liquid" />
+                <feBlend in="SourceGraphic" in2="liquid" />
+            </filter>
+        </defs>
+    </svg>
+
+    <div class="background-blur" id="bg-blur"></div>
+    
+    <div class="player-container" id="player-container">
+        <header>
+            <button id="menu-btn" class="icon-btn"><i class="fas fa-bars"></i></button>
+            <div class="now-playing-label">NOW PLAYING</div>
+            <button id="story-btn" class="icon-btn"><i class="fas fa-book-open"></i></button>
+        </header>
+
+        <main>
+            <div class="album-art-container">
+                <img id="album-art" src="assets/cover/Silence-Album-art.jpeg" alt="Album Art">
+            </div>
+
+            <div class="track-info">
+                <h1 id="track-title">Track Title</h1>
+                <p id="track-artist">Artist Name</p>
+            </div>
+
+            <div class="progress-container">
+                <div class="time-display">
+                    <span id="current-time">0:00</span>
+                    <span id="total-duration">0:00</span>
+                </div>
+                <div class="progress-bar-wrapper">
+                    <input type="range" id="progress-bar" min="0" max="100" value="0">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+
+            <div class="controls" style="filter: url(#liquid-ui);">
+                <button id="shuffle-btn" class="secondary-btn"><i class="fas fa-shuffle"></i></button>
+                <button id="prev-btn" class="main-btn"><i class="fas fa-backward-step"></i></button>
+                <button id="play-pause-btn" class="play-btn"><i class="fas fa-play"></i></button>
+                <button id="next-btn" class="main-btn"><i class="fas fa-forward-step"></i></button>
+                <button id="repeat-btn" class="secondary-btn"><i class="fas fa-repeat"></i></button>
+            </div>
+        </main>
+
+        <footer class="copyright">
+            <p>&copy; All Rights Reserved Michael De Silva</p>
+        </footer>
+
+        <div id="playlist-drawer" class="playlist-drawer">
+            <div class="drawer-handle"></div>
+            <div class="drawer-header">
+                <h2>Queue</h2>
+                <button id="close-drawer" class="icon-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <ul id="track-list" class="track-list">
+                <!-- Tracks will be injected here -->
+            </ul>
+        </div>
+
+        <div id="concept-overlay" class="concept-overlay">
+            <div class="concept-content">
+                <button id="close-story" class="close-story"><i class="fas fa-times"></i></button>
+                <h1>Silence in Existence</h1>
+                <div class="manuscript-text">
+                    <p><strong>Silence in Existence</strong> represents a unique collaboration between Ryan Somarathne and Mike De Zilva, blending their distinct sounds into a cohesive atmospheric experience.</p>
+                    <p>It's an exploration of space, sound, and the silence that lives between notes.</p>
+                    
+                    <section>
+                        <h3>1. The Void</h3>
+                        <p>A journey into the spaces we leave behind, the echoes that remain when the music stops.</p>
+                    </section>
+
+                    <section>
+                        <h3>2. Sonic Architecture</h3>
+                        <p>Building atmospheres that feel tangible, using sound to craft environments the listener can inhabit.</p>
+                    </section>
+
+                    <p class="footer-note">A sonic exploration of the space between.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="audio-player"></audio>
+
+    <script src="tracks.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

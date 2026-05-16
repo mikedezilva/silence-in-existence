@@ -1,0 +1,420 @@
+:root {
+    --bg-color: #0b110f;
+    --primary-color: #e3d9c8;
+    --secondary-color: #6a8276;
+    --accent-color: #a34839;
+    --glass-bg: rgba(11, 17, 15, 0.4);
+    --glass-border: rgba(227, 217, 200, 0.1);
+    --safe-area-bottom: env(safe-area-inset-bottom);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--primary-color);
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.background-blur {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('assets/cover/Silence-Album-art.jpeg');
+    background-size: cover;
+    background-position: center;
+    filter: blur(40px) brightness(0.2);
+    z-index: -3;
+    transform: scale(1.1);
+    transition: filter 2s ease, opacity 2s ease;
+}
+
+
+.player-container {
+    width: 100%;
+    max-width: 500px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 24px;
+    position: relative;
+    transition: opacity 2s ease;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.now-playing-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--secondary-color);
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 10px;
+    transition: opacity 0.2s;
+}
+
+.icon-btn:active {
+    opacity: 0.5;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.album-art-container {
+    width: 100%;
+    aspect-ratio: 1/1;
+    max-width: 320px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 5;
+}
+
+.album-art-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.album-art-container.playing {
+    transform: scale(1.05);
+    filter: url(#heat-distortion);
+}
+
+.track-info {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.track-info h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+}
+
+.track-info p {
+    font-size: 16px;
+    color: var(--secondary-color);
+}
+
+.progress-container {
+    width: 100%;
+    margin-top: 30px;
+}
+
+.time-display {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+
+.progress-bar-wrapper {
+    position: relative;
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+#progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: var(--accent-color);
+    border-radius: 2px;
+    width: 0%;
+    z-index: 1;
+    box-shadow: 0 0 10px var(--accent-color);
+    animation: beraPulse 1.5s infinite alternate;
+}
+
+@keyframes beraPulse {
+    0% { opacity: 0.8; box-shadow: 0 0 5px var(--accent-color); }
+    100% { opacity: 1; box-shadow: 0 0 15px var(--accent-color); }
+}
+
+.controls {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.main-btn {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 15px;
+}
+
+.play-btn {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: var(--bg-color);
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+}
+
+.secondary-btn {
+    background: none;
+    border: none;
+    color: var(--secondary-color);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.secondary-btn.active {
+    color: var(--accent-color);
+}
+
+.copyright {
+    margin-top: auto;
+    padding: 20px 0 10px;
+    text-align: center;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--secondary-color);
+    opacity: 0.4;
+}
+
+/* Playlist Drawer */
+.playlist-drawer {
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    right: 0;
+    height: 80%;
+    background: rgba(20, 20, 25, 0.95);
+    backdrop-filter: blur(20px);
+    border-top-left-radius: 32px;
+    border-top-right-radius: 32px;
+    padding: 20px 24px;
+    z-index: 10;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+.playlist-drawer.open {
+    transform: translateY(-100%);
+}
+
+.drawer-handle {
+    width: 40px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    margin: 0 auto 20px;
+}
+
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.drawer-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.track-list {
+    flex: 1;
+    list-style: none;
+    overflow-y: auto;
+    padding-bottom: 120px; /* Massive padding for scroll clearance */
+    overscroll-behavior: contain;
+}
+
+.track-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+}
+
+.track-item:last-child {
+    border-bottom: none;
+}
+
+.track-item.active {
+    color: var(--accent-color);
+}
+
+.track-item-info {
+    flex: 1;
+    margin-left: 16px;
+}
+
+.track-item-info h4 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.track-item-info p {
+    font-size: 14px;
+    color: var(--secondary-color);
+}
+
+.track-item i {
+    font-size: 14px;
+    margin-right: 10px;
+    opacity: 0;
+}
+
+.track-item.active i {
+    opacity: 1;
+}
+
+
+/* Concept Overlay */
+.concept-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(11, 17, 15, 0.85);
+    backdrop-filter: blur(30px);
+    z-index: 200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+}
+
+.concept-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.concept-content {
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    padding: 60px 40px;
+    position: relative;
+    color: var(--primary-color);
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.concept-content::-webkit-scrollbar {
+    display: none;
+}
+
+.close-story {
+    position: sticky;
+    top: -20px;
+    float: right;
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 24px;
+    cursor: pointer;
+    opacity: 0.6;
+    z-index: 10;
+}
+
+.concept-content h1 {
+    font-size: 32px;
+    margin-bottom: 30px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-align: center;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 20px;
+}
+
+.manuscript-text section {
+    margin: 40px 0;
+}
+
+.manuscript-text h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: var(--accent-color);
+    letter-spacing: 1px;
+}
+
+.manuscript-text p {
+    font-size: 16px;
+    line-height: 1.8;
+    font-weight: 300;
+    opacity: 0.9;
+}
+
+.footer-note {
+    margin-top: 60px;
+    text-align: center;
+    font-style: italic;
+    opacity: 0.6;
+    font-size: 14px;
+}
